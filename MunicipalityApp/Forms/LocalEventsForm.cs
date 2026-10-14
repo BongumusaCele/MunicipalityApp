@@ -16,7 +16,6 @@ namespace MunicipalityApp.Forms
         private readonly WatermarkTextBox searchTextBox;
         private readonly ComboBox categoryComboBox;
         private readonly DateTimePicker datePicker;
-        private readonly CheckBox useDateCheckBox;
         private readonly DataGridView eventsGrid;
         private readonly FlowLayoutPanel recommendationsPanel;
         private readonly Label resultsLabel;
@@ -38,11 +37,20 @@ namespace MunicipalityApp.Forms
             categoryComboBox.Items.Add("All Categories");
             categoryComboBox.Items.AddRange(repository.GetCategories().Cast<object>().ToArray());
             categoryComboBox.SelectedIndex = 0;
-            useDateCheckBox = new CheckBox { Location = new Point(530, 28), AutoSize = true, Font = new Font("Segoe UI", 9.5f), Text = "On date" };
-            datePicker = new DateTimePicker { Location = new Point(602, 24), Size = new Size(178, 34), Format = DateTimePickerFormat.Short, Font = new Font("Segoe UI", 10f), Enabled = false, MinDate = DateTime.Today };
+            datePicker = new DateTimePicker
+            {
+                Location = new Point(530, 24),
+                Size = new Size(250, 34),
+                Font = new Font("Segoe UI", 10f),
+                Format = DateTimePickerFormat.Custom,
+                CustomFormat = "ddd, dd MMM yyyy",
+                MinDate = DateTime.Today,
+                ShowCheckBox = true,
+                Checked = false
+            };
             SecondaryButton clearButton = new SecondaryButton { Location = new Point(796, 20), Size = new Size(82, 40), Text = "Clear" };
             Label filterHint = new Label { Location = new Point(22, 72), AutoSize = true, ForeColor = UiTheme.TextSecondary, Text = "Results update as you type. Select a category or exact event date to narrow the list." };
-            filterCard.Controls.Add(searchTextBox); filterCard.Controls.Add(categoryComboBox); filterCard.Controls.Add(useDateCheckBox);
+            filterCard.Controls.Add(searchTextBox); filterCard.Controls.Add(categoryComboBox);
             filterCard.Controls.Add(datePicker); filterCard.Controls.Add(clearButton); filterCard.Controls.Add(filterHint);
 
             resultsLabel = new Label { AutoSize = true, Font = new Font("Segoe UI", 14f, FontStyle.Bold), ForeColor = UiTheme.TextPrimary, Location = new Point(0, 254), Text = "Upcoming events" };
@@ -62,8 +70,7 @@ namespace MunicipalityApp.Forms
             searchTextBox.TextChanged += FilterChanged;
             categoryComboBox.SelectedIndexChanged += FilterChanged;
             datePicker.ValueChanged += FilterChanged;
-            useDateCheckBox.CheckedChanged += delegate { datePicker.Enabled = useDateCheckBox.Checked; RefreshEvents(); };
-            clearButton.Click += delegate { searchTextBox.Clear(); categoryComboBox.SelectedIndex = 0; useDateCheckBox.Checked = false; RefreshEvents(); };
+            clearButton.Click += delegate { searchTextBox.Clear(); categoryComboBox.SelectedIndex = 0; datePicker.Checked = false; RefreshEvents(); };
             eventsGrid.CellDoubleClick += ShowEventDetails;
 
             LayoutContent();
@@ -101,7 +108,7 @@ namespace MunicipalityApp.Forms
 
         private void RefreshEvents()
         {
-            DateTime? date = useDateCheckBox.Checked ? (DateTime?)datePicker.Value.Date : null;
+            DateTime? date = datePicker.Checked ? (DateTime?)datePicker.Value.Date : null;
             IList<MunicipalEvent> items = repository.Search(searchTextBox.Text, categoryComboBox.SelectedItem as string, date);
             eventsGrid.Rows.Clear();
             foreach (MunicipalEvent item in items)
