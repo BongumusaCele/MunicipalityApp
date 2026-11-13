@@ -18,6 +18,7 @@ namespace MunicipalityApp
         public MainMenuForm()
         {
             InitializeComponent();
+            statusButton.Click += delegate { OpenFeature(FormNavigationResult.ServiceRequestStatus); };
             LoadBrandLogo();
             LayoutMainContent();
             LayoutSidebar();
@@ -134,11 +135,19 @@ namespace MunicipalityApp
         private void OpenFeature(FormNavigationResult destination)
         {
             Hide();
-            while (destination == FormNavigationResult.ReportIssues || destination == FormNavigationResult.LocalEvents)
+            while (destination == FormNavigationResult.ReportIssues || destination == FormNavigationResult.LocalEvents || destination == FormNavigationResult.ServiceRequestStatus)
             {
                 if (destination == FormNavigationResult.ReportIssues)
                 {
                     using (ReportedIssuesForm form = new ReportedIssuesForm())
+                    {
+                        form.ShowDialog();
+                        destination = form.NavigationResult;
+                    }
+                }
+                else if (destination == FormNavigationResult.ServiceRequestStatus)
+                {
+                    using (ServiceRequestStatusForm form = new ServiceRequestStatusForm())
                     {
                         form.ShowDialog();
                         destination = form.NavigationResult;

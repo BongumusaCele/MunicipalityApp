@@ -10,7 +10,8 @@ namespace MunicipalityApp.Forms
     {
         Home,
         ReportIssues,
-        LocalEvents
+        LocalEvents,
+        ServiceRequestStatus
     }
 
     internal sealed class AppSidebar : UserControl
@@ -28,6 +29,7 @@ namespace MunicipalityApp.Forms
         internal event EventHandler ReportIssuesRequested;
         internal event EventHandler LocalEventsRequested;
         internal event EventHandler ExitRequested;
+        internal event EventHandler ServiceRequestStatusRequested;
 
         internal AppSidebar(AppPage selectedPage)
         {
@@ -66,9 +68,9 @@ namespace MunicipalityApp.Forms
             homeButton = CreateButton("Home", string.Empty, NavigationIcon.Home, selectedPage == AppPage.Home);
             reportIssuesButton = CreateButton("Report Issues", string.Empty, NavigationIcon.Issues, selectedPage == AppPage.ReportIssues);
             eventsButton = CreateButton("Local Events", string.Empty, NavigationIcon.Calendar, selectedPage == AppPage.LocalEvents);
-            requestStatusButton = CreateButton("Service Request Status", "Coming Soon", NavigationIcon.Status, false);
+            requestStatusButton = CreateButton("Service Request Status", string.Empty, NavigationIcon.Status, selectedPage == AppPage.ServiceRequestStatus);
             exitButton = CreateButton("Exit", string.Empty, NavigationIcon.Exit, false);
-            requestStatusButton.Enabled = false;
+            requestStatusButton.Click += delegate { if (ServiceRequestStatusRequested != null) ServiceRequestStatusRequested(this, EventArgs.Empty); };
 
             homeButton.Click += delegate { if (HomeRequested != null) HomeRequested(this, EventArgs.Empty); };
             reportIssuesButton.Click += delegate { if (ReportIssuesRequested != null) ReportIssuesRequested(this, EventArgs.Empty); };

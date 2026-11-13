@@ -151,11 +151,11 @@ namespace MunicipalityApp
             this.eventsButton.Click += new System.EventHandler(this.EventsButton_Click);
 
             this.statusButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            this.statusButton.Enabled = false;
+            this.statusButton.Enabled = true;
             this.statusButton.IconKind = NavigationIcon.Status;
             this.statusButton.Location = new System.Drawing.Point(14, 443);
             this.statusButton.MainText = "Service Request Status";
-            this.statusButton.SecondaryText = "Coming Soon";
+            this.statusButton.SecondaryText = "";
             this.statusButton.Name = "statusButton";
             this.statusButton.Size = new System.Drawing.Size(262, 61);
 

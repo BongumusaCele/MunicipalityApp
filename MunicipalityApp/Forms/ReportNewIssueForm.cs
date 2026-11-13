@@ -532,6 +532,12 @@ namespace MunicipalityApp.Forms
                 CloseWithResult(FormNavigationResult.Home);
         }
 
+        protected override void OnServiceRequestStatusRequested()
+        {
+            if (ConfirmDiscard())
+                CloseWithResult(FormNavigationResult.ServiceRequestStatus);
+        }
+
         protected override void OnLocalEventsRequested()
         {
             if (ConfirmDiscard())

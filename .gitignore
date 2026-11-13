@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Isolated verification data
+tests/runtime-data/
+tests/part3-status.png
+
+# Local Word report preparation and previews
+/document-work/

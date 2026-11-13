@@ -338,6 +338,12 @@ namespace MunicipalityApp.Forms
                     return;
                 }
 
+                if (form.NavigationResult == FormNavigationResult.ServiceRequestStatus || form.NavigationResult == FormNavigationResult.LocalEvents)
+                {
+                    CloseWithResult(form.NavigationResult);
+                    return;
+                }
+
                 if (form.NavigationResult == FormNavigationResult.Home)
                 {
                     CloseWithResult(FormNavigationResult.Home);

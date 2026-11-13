@@ -11,6 +11,7 @@ namespace MunicipalityApp.Forms
         Back,
         ReportIssues,
         LocalEvents,
+        ServiceRequestStatus,
         Exit
     }
 
@@ -70,6 +71,7 @@ namespace MunicipalityApp.Forms
             Sidebar.HomeRequested += delegate { OnHomeRequested(); };
             Sidebar.ReportIssuesRequested += delegate { OnReportIssuesRequested(); };
             Sidebar.LocalEventsRequested += delegate { OnLocalEventsRequested(); };
+            Sidebar.ServiceRequestStatusRequested += delegate { OnServiceRequestStatusRequested(); };
             Sidebar.ExitRequested += delegate { RequestApplicationExit(); };
         }
 
@@ -85,6 +87,11 @@ namespace MunicipalityApp.Forms
 
         protected virtual void OnReportIssuesRequested()
         {
+        }
+
+        protected virtual void OnServiceRequestStatusRequested()
+        {
+            CloseWithResult(FormNavigationResult.ServiceRequestStatus);
         }
 
         protected virtual void OnLocalEventsRequested()
